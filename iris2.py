@@ -1,19 +1,27 @@
 from sklearn.datasets import load_iris
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-import pickle as pickle
+from sklearn.ensemble import RandomForestClassifier
+import pickle
 
-iris = load_iris()
-X, y = iris.data, iris.target
+def load_data():
+    iris = load_iris()
+    X = iris.data
+    y = iris.target
+    return X, y
 
-X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2)
-print(X_train.shape)
-print(y_train.shape)
+def train_model(X, y):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    rf_clf = RandomForestClassifier(random_state=42)
+    rf_clf.fit(X_train, y_train)
+    
+    return rf_clf
 
-clf = RandomForestClassifier()
-clf.fit(X_train, y_train)
+def save_model(model, filename):
+    with open(filename, 'wb') as file:
+        pickle.dump(model, file)
 
-print(clf.score(X_test, y_test))
-
-print("Scroring model to pickle file")
-pickle.dump(clf,open("iris_model.pkl", 'wb'))
+if __name__ == "__main__":
+    X, y = load_data()
+    model = train_model(X, y)
+    save_model(model, "iris_model.pkl")
