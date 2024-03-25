@@ -1,5 +1,6 @@
 import streamlit as st
 import pickle
+import numpy as np
 from sklearn.datasets import load_iris
 
 iris = load_iris()
@@ -19,6 +20,11 @@ sepal_length = st.sidebar.slider('Sepal Length', 4.0, 8.0, 5.0)
 sepal_width = st.sidebar.slider('Sepal Width', 2.0, 4.5, 3.0)
 petal_length = st.sidebar.slider('Petal Length', 1.0, 7.0, 4.0)
 petal_width = st.sidebar.slider('Petal Width', 0.1, 2.5, 1.0)
+
+sepal_length = np.nan_to_num(sepal_length)
+sepal_width = np.nan_to_num(sepal_width)
+petal_length = np.nan_to_num(petal_length)
+petal_width = np.nan_to_num(petal_length)
 
 st.write('### Các đặc trưng đã chọn:')
 st.write(f" - Sepal Length: {sepal_length}")
